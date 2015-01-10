@@ -1,11 +1,11 @@
 from flask import jsonify
-from flask.ext.restful import Resource, reqparse
+from flask.ext.restful import reqparse
 
-from service.models import User
 from service import db
+from service.models import User
+from protected_resource import ProtectedResource
 
-
-class UsersList(Resource):
+class UsersList(ProtectedResource):
 
 	def get(self):
 		users = User.query.all()

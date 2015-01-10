@@ -1,0 +1,54 @@
+import sys
+import uuid
+from flask import Flask
+from flask.ext.sqlalchemy import SQLAlchemy
+
+from passlib.apps import custom_app_context as pwd_context
+
+from service import db
+from service.models import User
+
+
+
+
+def random_string(string_length=14):
+
+    random = str(uuid.uuid4()) # Convert UUID format to a Python string.
+    random = random.replace("-","") # Remove the UUID '-'.
+    
+    return random[0:string_length] # Return the random string.
+
+
+
+if len(sys.argv) <= 1:
+	print "Username is required"
+	sys.exit()
+
+username = sys.argv[1]
+
+existing_users = User.query.filter_by(
+	username=username)
+
+if existing_users.count() > 0:
+	print "User with name {} already exists".format(username)
+	sys.exit()
+
+sid = 'US' + random_string(14)
+token = random_string(16)
+hashed_token = pwd_context.encrypt(token)
+
+user = User(username = username,
+			user_sid = sid,
+			hashed_token = hashed_token)
+
+# creating DB session via Flask
+app = Flask(__name__)
+app.config.from_object('config')
+db = SQLAlchemy(app)
+
+
+db.session.add(user)
+db.session.commit()
+
+print "Created user {}, username: {}, auth_token : {}".format(username, sid, token) 
+
