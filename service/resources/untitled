@@ -1,0 +1,6 @@
+class AuthRequiredResource(Resource):
+	method_decorators = [authenticate]
+
+
+def basic_authentication():
+	print "Hello world"
