@@ -1,6 +1,7 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restful import Api
+
 from flask.ext.httpauth import HTTPBasicAuth
 
 
@@ -16,4 +17,3 @@ auth = HTTPBasicAuth()
 from resources.users_resource import UsersList
 
 api.add_resource(UsersList, '/users')
-

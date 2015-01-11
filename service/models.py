@@ -1,6 +1,5 @@
-from passlib.apps import custom_app_context as pwd_context
-
 from service import db
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -9,7 +8,6 @@ class User(db.Model):
     user_sid = db.Column(db.String(16), unique=True)
     hashed_token = db.Column(db.String(16), unique=True)
     tweets = db.relationship('Tweet', backref='author')
-
 
     def __repr__(self):
         return '<User %r>' % (self.username)

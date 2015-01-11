@@ -1,9 +1,11 @@
 import sys
 import uuid
+import base64
+import hashlib
+from werkzeug.security import generate_password_hash
+
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-
-from passlib.apps import custom_app_context as pwd_context
 
 from service import db
 from service.models import User
@@ -35,7 +37,7 @@ if existing_users.count() > 0:
 
 sid = 'US' + random_string(14)
 token = random_string(16)
-hashed_token = pwd_context.encrypt(token)
+hashed_token = generate_password_hash(token)
 
 user = User(username = username,
 			user_sid = sid,
@@ -49,6 +51,8 @@ db = SQLAlchemy(app)
 
 db.session.add(user)
 db.session.commit()
+
+db.session.close()
 
 print "Created user {}, username: {}, auth_token : {}".format(username, sid, token) 
 

@@ -15,7 +15,10 @@ class UsersList(ProtectedResource):
 		}
 
 		for user in users:
-			result['users'].append({'name':user.username})
+			result['users'].append({
+				'name':user.username,
+				'sid':user.user_sid
+				})
 
 		return jsonify(result)
 
