@@ -42,6 +42,7 @@ class ProtectedResource(Resource):
 
 
     def post(self, *args, **kwargs):
+    	
     	try:
     		data = self._post(*args, **kwargs)
     		return data
