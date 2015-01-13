@@ -37,6 +37,28 @@ def auth_pass(request_sid, request_token):
 
 
 class ProtectedResource(Resource):
-    method_decorators = [authenticate] 
+    # method_decorators = [authenticate] 
+    method_decorators = [] 
+
+
+    def post(self, *args, **kwargs):
+    	try:
+    		data = self._post(*args, **kwargs)
+    		return data
+
+    	except ValueError as e:
+    		error = {
+    			'status': 'client error',
+    			'message': e.message
+    			}
+    		return error, 400
+
+    	except BaseException as e:
+    		error = {
+    			'status': 'server error',
+    			'message': e.message
+    			}
+    		return error, 500
+
 
 

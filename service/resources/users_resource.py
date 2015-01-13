@@ -16,6 +16,7 @@ class UsersList(ProtectedResource):
 
 		for user in users:
 			result['users'].append({
+				'id':user.id,
 				'name':user.username,
 				'sid':user.user_sid
 				})

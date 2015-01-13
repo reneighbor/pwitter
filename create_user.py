@@ -1,7 +1,5 @@
 import sys
 import uuid
-import base64
-import hashlib
 from werkzeug.security import generate_password_hash
 
 from flask import Flask

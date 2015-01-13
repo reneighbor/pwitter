@@ -13,6 +13,16 @@ class User(db.Model):
         return '<User %r>' % (self.username)
 
 
+class Broadcaster2Follower(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date_created = db.Column(db.DateTime)
+    broadcaster_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    follower_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    status = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Broadcaster2Follower %r, %r>' % (self.user_id, self.follower_id)
+
 
 class Tweet(db.Model):
     id = db.Column(db.Integer, primary_key = True)
