@@ -17,7 +17,7 @@ class BroadcastersList(ProtectedResource):
 
 	@marshal_with(fields, envelope='broadcaster')
 	def _post(self, username):
-		
+
 		parser = reqparse.RequestParser()
 
 		parser.add_argument('username',
@@ -56,7 +56,9 @@ class BroadcastersList(ProtectedResource):
 		broadcaster2follower = Broadcaster2Follower(
 			broadcaster_id=broadcaster.id,
 			follower_id=user.id,
-			date_created=datetime.now())
+			date_created=datetime.now(),
+			date_updated=datetime.now(),
+		)
 
 		db.session.add(broadcaster2follower)
 		db.session.commit()
@@ -69,3 +71,49 @@ class BroadcastersList(ProtectedResource):
 		}
 
 		return result, 201
+
+
+class BroadcastersInstance(ProtectedResource):
+
+	@marshal_with(fields, envelope='broadcaster')
+	def _delete(self, username, broadcaster_name):
+		
+
+		user = User.query.filter_by(
+			username=username).first()
+
+		if not user:
+			raise ValueError("No user found for YOU")
+		
+
+		broadcaster = User.query.filter_by(
+			username=broadcaster_name).first()
+
+		if not broadcaster:
+			raise ValueError("No user found for '{}'".format(
+				args['broadcaster_name']))
+
+
+		broadcaster2follower = Broadcaster2Follower.query.filter_by(
+			broadcaster_id = broadcaster.id,
+			follower_id = user.id).first()
+
+		if not broadcaster2follower:
+			raise ValueError("Not currently following {}".format(
+				args['broadcaster_name']))
+
+
+
+		broadcaster2follower.active = False
+
+		db.session.add(broadcaster2follower)
+		db.session.commit()
+
+
+		result = {	
+			'username': broadcaster.username,
+			'date_created': broadcaster.date_created,
+			'date_unfollowed': broadcaster2follower.date_updated
+		}
+
+		return result, 204

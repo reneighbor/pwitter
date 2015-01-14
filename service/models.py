@@ -1,9 +1,11 @@
+import datetime
 from service import db
 
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_created = db.Column(db.DateTime)
+    date_updated = db.Column(db.DateTime)
     username = db.Column(db.String(64), unique=True)
     user_sid = db.Column(db.String(16), unique=True)
     hashed_token = db.Column(db.String(16), unique=True)
@@ -16,9 +18,10 @@ class User(db.Model):
 class Broadcaster2Follower(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_created = db.Column(db.DateTime)
+    date_updated = db.Column(db.DateTime)
     broadcaster_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     follower_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    status = db.Column(db.Integer)
+    active = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
         return '<Broadcaster2Follower %r, %r>' % (self.user_id, self.follower_id)
@@ -27,6 +30,7 @@ class Broadcaster2Follower(db.Model):
 class Tweet(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     date_created = db.Column(db.DateTime)
+    date_updated = db.Column(db.DateTime)
     body = db.Column(db.String(140))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 

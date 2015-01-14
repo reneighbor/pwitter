@@ -12,10 +12,21 @@ db = SQLAlchemy(app)
 api = Api(app)
 auth = HTTPBasicAuth()
 
-# Importing after SqlAlchemy object is created to
-# avoid circular imports
-from resources.users_resource import UsersList
-from resources.broadcasters_resource import BroadcastersList
 
-api.add_resource(UsersList, '/users')
-api.add_resource(BroadcastersList, '/users/<string:username>/broadcasters')
+# Importing resources after SqlAlchemy object is 
+# created to avoid circular imports
+from resources.users_resource import UsersList
+from resources.broadcasters_resource import BroadcastersList, BroadcastersInstance
+from resources.followers_resource import FollowersList
+
+
+api.add_resource(UsersList, 
+    '/users')
+
+api.add_resource(BroadcastersList, 
+    '/users/<string:username>/broadcasters')
+api.add_resource(BroadcastersInstance, 
+    '/users/<string:username>/broadcasters/<string:broadcaster_name>')
+
+api.add_resource(FollowersList, 
+    '/users/<string:username>/followers')

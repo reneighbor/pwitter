@@ -11,7 +11,6 @@ from service.models import User
 
 
 def authenticate(func):
-
     @wraps(func)
     def wrapper(*args, **kwargs):
         if auth_pass(
@@ -24,7 +23,6 @@ def authenticate(func):
 
 
 def auth_pass(request_sid, request_token):
-
     user = User.query.filter_by(user_sid=request_sid).first()
    
     if not user:
@@ -41,25 +39,58 @@ class ProtectedResource(Resource):
     method_decorators = [] 
 
 
+    def get(self, *args, **kwargs):
+        try:
+            data = self._get(*args, **kwargs)
+            return data
+        except ValueError as e:
+            error = {
+                'status': 'client error',
+                'message': e.message
+                }
+            return error, 400
+        except BaseException as e:
+            error = {
+                'status': 'server error',
+                'message': e.message
+                }
+        return error, 500
+
+
     def post(self, *args, **kwargs):
-    	
-    	try:
+        try:
     		data = self._post(*args, **kwargs)
     		return data
-
     	except ValueError as e:
     		error = {
     			'status': 'client error',
     			'message': e.message
     			}
     		return error, 400
-
     	except BaseException as e:
     		error = {
     			'status': 'server error',
     			'message': e.message
     			}
-    		return error, 500
+    	return error, 500
+
+
+    def delete(self, *args, **kwargs):
+        try:
+            data = self._delete(*args, **kwargs)
+            return data
+        except ValueError as e:
+            error = {
+                'status': 'client error',
+                'message': e.message
+                }
+            return error, 400
+        except Exception as e:
+            error = {
+                'status': 'server error',
+                'message': e.message
+                }
+        return error, 500
 
 
 

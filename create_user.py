@@ -1,5 +1,6 @@
 import sys
 import uuid
+from datetime import datetime
 from werkzeug.security import generate_password_hash
 
 from flask import Flask
@@ -39,7 +40,9 @@ hashed_token = generate_password_hash(token)
 
 user = User(username = username,
 			user_sid = sid,
-			hashed_token = hashed_token)
+			hashed_token = hashed_token,
+			date_created = datetime.now(),
+			date_updated = datetime.now())
 
 # creating DB session via Flask
 app = Flask(__name__)
