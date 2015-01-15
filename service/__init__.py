@@ -18,6 +18,7 @@ auth = HTTPBasicAuth()
 from resources.users_resource import UsersList
 from resources.broadcasters_resource import BroadcastersList, BroadcastersInstance
 from resources.followers_resource import FollowersList
+from resources.tweets_resource import TweetsList
 
 
 api.add_resource(UsersList, 
@@ -30,3 +31,6 @@ api.add_resource(BroadcastersInstance,
 
 api.add_resource(FollowersList, 
     '/users/<string:username>/followers')
+
+api.add_resource(TweetsList, 
+    '/tweets')

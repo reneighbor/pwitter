@@ -41,15 +41,15 @@ class FollowersList(ProtectedResource):
 
 			if not follower:
 				raise Exception("No user exists for user_id {}".format(
-					b2.follower_id))
+					b2f.follower_id))
 
 
 			follower_fields = marshal({
 					'username': follower.username,
 					'date_followed': b2f.date_created,
 				}, fields)
-			followers.append(follower_fields)
 
+			followers.append(follower_fields)
 
 		
 		return {'followers': followers}

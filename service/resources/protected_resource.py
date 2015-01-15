@@ -10,9 +10,13 @@ from service import auth
 from service.models import User
 
 
+
 def authenticate(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
+        print "Hello?"
+        print request.authorization
+
         if auth_pass(
         	request.authorization.username, request.authorization.password):
 
@@ -35,8 +39,8 @@ def auth_pass(request_sid, request_token):
 
 
 class ProtectedResource(Resource):
-    # method_decorators = [authenticate] 
-    method_decorators = [] 
+    method_decorators = [authenticate] 
+    # method_decorators = [] 
 
 
     def get(self, *args, **kwargs):

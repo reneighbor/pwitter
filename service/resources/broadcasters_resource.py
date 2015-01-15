@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import jsonify, abort
-from flask.ext.restful import reqparse, fields, marshal_with
+from flask.ext.restful import reqparse, fields, marshal_with, marshal
 
 from service import db
 from service.models import User, Broadcaster2Follower
@@ -14,6 +14,45 @@ fields = {
 }
 
 class BroadcastersList(ProtectedResource):
+
+
+	def get(self, username):
+
+		user = User.query.filter_by(
+			username=username).first()
+
+		if not user:
+			raise ValueError("No user found for YOU")
+
+
+		broadcaster2followers = Broadcaster2Follower.query.filter_by(
+			follower_id=user.id).all()
+
+		if len(broadcaster2followers) == 0:
+			return {'broadcasters': {}}
+
+
+		broadcasters = []
+
+		for b2f in broadcaster2followers:
+
+			broadcaster = User.query.filter_by(
+				id=b2f.broadcaster_id).first()
+
+			if not broadcaster:
+				raise Exception("No user exists for user_id {}".format(
+					b2f.broadcaster_id))
+
+			broadcaster_fields = marshal({
+				'username': broadcaster.username,
+				'date_followed': b2f.date_created
+			}, fields)
+
+			broadcasters.append(broadcaster_fields)
+
+
+		return {'broadcasters': broadcasters}
+
 
 	@marshal_with(fields, envelope='broadcaster')
 	def _post(self, username):
