@@ -25,7 +25,6 @@ from resources.users_tweets_resource import UsersTweetsList
 api.add_resource(UsersList, 
     '/users')
 
-
 api.add_resource(TweetsList, 
     '/tweets')
 
@@ -37,6 +36,7 @@ api.add_resource(UsersFollowersList,
 
 api.add_resource(UsersBroadcastersList, 
     '/users/<string:username>/broadcasters')
+
 api.add_resource(UsersBroadcastersInstance, 
     '/users/<string:username>/broadcasters/<string:broadcaster_name>')
 
