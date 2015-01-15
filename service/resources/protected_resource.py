@@ -10,37 +10,15 @@ from service import auth
 from service.models import User
 
 
-
-def authenticate(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        print "Hello?"
-        print request.authorization
-
-        if auth_pass(
-        	request.authorization.username, request.authorization.password):
-
-            return func(*args, **kwargs)
-
-        abort(401)
-    return wrapper
-
-
-def auth_pass(request_sid, request_token):
-    user = User.query.filter_by(user_sid=request_sid).first()
-   
-    if not user:
-    	return False
-
-    if not check_password_hash(user.hashed_token, request_token):
-    	return False
-
-    return True
+@auth.verify_password
+def verify_pw(username, password):
+    user = User.query.filter_by(user_sid=username).first()
+    return check_password_hash(user.hashed_token, password)
+       
 
 
 class ProtectedResource(Resource):
-    method_decorators = [authenticate] 
-    # method_decorators = [] 
+    method_decorators = [auth.login_required] 
 
 
     def get(self, *args, **kwargs):
