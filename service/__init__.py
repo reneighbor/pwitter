@@ -16,21 +16,28 @@ auth = HTTPBasicAuth()
 # Importing resources after SqlAlchemy object is 
 # created to avoid circular imports
 from resources.users_resource import UsersList
-from resources.broadcasters_resource import BroadcastersList, BroadcastersInstance
-from resources.followers_resource import FollowersList
+from resources.users_broadcasters_resource import UsersBroadcastersList, UsersBroadcastersInstance
+from resources.users_followers_resource import UsersFollowersList
 from resources.tweets_resource import TweetsList
+from resources.users_tweets_resource import UsersTweetsList
 
 
 api.add_resource(UsersList, 
     '/users')
 
-api.add_resource(BroadcastersList, 
-    '/users/<string:username>/broadcasters')
-api.add_resource(BroadcastersInstance, 
-    '/users/<string:username>/broadcasters/<string:broadcaster_name>')
-
-api.add_resource(FollowersList, 
-    '/users/<string:username>/followers')
 
 api.add_resource(TweetsList, 
     '/tweets')
+
+api.add_resource(UsersTweetsList, 
+    '/users/<string:username>/tweets')
+
+api.add_resource(UsersFollowersList, 
+    '/users/<string:username>/followers')
+
+api.add_resource(UsersBroadcastersList, 
+    '/users/<string:username>/broadcasters')
+api.add_resource(UsersBroadcastersInstance, 
+    '/users/<string:username>/broadcasters/<string:broadcaster_name>')
+
+

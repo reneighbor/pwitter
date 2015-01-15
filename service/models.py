@@ -24,15 +24,16 @@ class Broadcaster2Follower(db.Model):
     active = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
-        return '<Broadcaster2Follower %r, %r>' % (self.user_id, self.follower_id)
+        return '<Broadcaster2Follower %r, %r>' % (self.broadcaster_id, self.follower_id)
 
 
 class Tweet(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     date_created = db.Column(db.DateTime)
     date_updated = db.Column(db.DateTime)
-    body = db.Column(db.String(140))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    username = db.Column(db.String(32), unique=True)
+    body = db.Column(db.String(140))
 
     def __repr__(self):
         return '<Tweet %r>' % (self.body)
