@@ -22,7 +22,7 @@ class UsersBroadcastersList(ProtectedResource):
 			username=username).first()
 
 		if not user:
-			raise ValueError("No user found for YOU")
+			raise ValueError("No user found for ".format(username))
 
 
 		broadcaster2followers = Broadcaster2Follower.query.filter_by(
@@ -55,6 +55,8 @@ class UsersBroadcastersList(ProtectedResource):
 
 	@marshal_with(fields, envelope='broadcaster')
 	def _post(self, username):
+		if username != g.user.username
+			raise ValueError("Not authorized to follow users on behalf another account")
 
 		parser = reqparse.RequestParser()
 
@@ -115,13 +117,8 @@ class UsersBroadcastersInstance(ProtectedResource):
 
 	@marshal_with(fields, envelope='broadcaster')
 	def _delete(self, username, broadcaster_name):
-		
-
-		user = User.query.filter_by(
-			username=username).first()
-
-		if not user:
-			raise ValueError("No user found for YOU")
+		if username != g.user.username:
+			raise ValueError("Not authorized to unfollow users on behalf another account")
 		
 
 		broadcaster = User.query.filter_by(

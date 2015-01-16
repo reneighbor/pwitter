@@ -39,7 +39,6 @@ class TweetsList(ProtectedResource):
 
 
         if args.get('search'):
-
             tweets = Tweet.query.filter(or_(
                 Tweet.body.like(args['search']),
                 Tweet.user_id.in_(broadcasters)

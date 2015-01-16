@@ -47,6 +47,8 @@ class UsersTweetsList(ProtectedResource):
 
     @marshal_with(fields, envelope='tweet')
     def _post(self, username):
+        if username != g.user.username:
+            raise ValueError("Not authorized to tweet on behalf of another user")
 
         parser = reqparse.RequestParser()
 
