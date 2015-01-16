@@ -34,13 +34,13 @@ class UsersTweetsList(ProtectedResource):
         tweet_results = []
 
         for tweet in tweets:
-            tweet_fields = marshal({
+            tweet_result = marshal({
                 'username': tweet.username,
                 'date_created': tweet.date_created,
                 'body': tweet.body
             }, fields)
 
-            tweet_results.append(tweet_fields)
+            tweet_results.append(tweet_result)
 
         return {'tweets': tweet_results}
 

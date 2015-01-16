@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from flask import jsonify, abort
 from flask.ext.restful import reqparse, fields, marshal_with, marshal
 
@@ -31,10 +32,9 @@ class UsersBroadcastersList(ProtectedResource):
 			return {'broadcasters': []}
 
 
-		broadcasters = []
+		broadcaster_results = []
 
 		for b2f in broadcaster2followers:
-
 			broadcaster = User.query.filter_by(
 				id=b2f.broadcaster_id).first()
 
@@ -42,15 +42,15 @@ class UsersBroadcastersList(ProtectedResource):
 				raise Exception("No user exists for user_id {}".format(
 					b2f.broadcaster_id))
 
-			broadcaster_fields = marshal({
+			broadcaster_result = marshal({
 				'username': broadcaster.username,
 				'date_followed': b2f.date_created
 			}, fields)
 
-			broadcasters.append(broadcaster_fields)
+			broadcaster_results.append(broadcaster_result)
 
 
-		return {'broadcasters': broadcasters}
+		return {'broadcasters': broadcaster_results}
 
 
 	@marshal_with(fields, envelope='broadcaster')

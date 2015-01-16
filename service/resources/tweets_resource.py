@@ -1,5 +1,5 @@
 from flask import g
-from flask.ext.restful import fields, marshal, reqparse
+from flask.ext.restful import fields, reqparse, marshal
 from sqlalchemy import or_
 
 from service.models import Broadcaster2Follower, Tweet
@@ -54,14 +54,13 @@ class TweetsList(ProtectedResource):
         tweet_results = []
 
         for tweet in tweets:
-
-            tweet_fields = marshal({
+            tweet_result = marshal({
                 'username': tweet.username,
                 'date_created': tweet.date_created,
                 'body': tweet.body
             }, fields)
 
-            tweet_results.append(tweet_fields)
+            tweet_results.append(tweet_result)
 
         return {'tweets': tweet_results}
         

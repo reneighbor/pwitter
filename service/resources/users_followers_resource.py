@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 from flask import jsonify
-from flask.ext.restful import reqparse, fields, marshal_with, marshal
+from flask.ext.restful import fields, reqparse, marshal_with, marshal
 
 from service import db
 from service.models import User, Broadcaster2Follower
@@ -32,10 +32,9 @@ class UsersFollowersList(ProtectedResource):
 			return {'followers': {}}
 
 
-		followers = []
+		follower_results = []
 
 		for b2f in broadcaster2followers:
-
 			follower = User.query.filter_by(
 				id=b2f.follower_id).first()
 
@@ -44,12 +43,12 @@ class UsersFollowersList(ProtectedResource):
 					b2f.follower_id))
 
 
-			follower_fields = marshal({
+			follower_result = marshal({
 					'username': follower.username,
 					'date_followed': b2f.date_created,
 				}, fields)
 
-			followers.append(follower_fields)
+			follower_results.append(follower_result)
 
 		
-		return {'followers': followers}
+		return {'followers': follower_results}

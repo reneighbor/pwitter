@@ -22,8 +22,7 @@ from resources.tweets_resource import TweetsList
 from resources.users_tweets_resource import UsersTweetsList
 
 
-api.add_resource(UsersList, 
-    '/users')
+
 
 api.add_resource(TweetsList, 
     '/tweets')
