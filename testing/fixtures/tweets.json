@@ -1,0 +1,15 @@
+[
+    {
+            "model": "Tweet",
+            "pk": 1,
+            "key": "auto_id",
+            "fields": {
+                "id": 1,
+                "date_created": "2015-1-01 00:00:00",
+                "date_updated": "2015-1-01 00:00:00",
+                "user_id": "1",
+                "username": "reneighbor",
+                "body": "hello world"
+            }   
+        }
+]
