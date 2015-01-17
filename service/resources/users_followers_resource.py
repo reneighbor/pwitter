@@ -17,7 +17,6 @@ fields = {
 class UsersFollowersList(ProtectedResource):
 
 	def get(self, username):
-
 		user = User.query.filter_by(
 			username=username).first()
 

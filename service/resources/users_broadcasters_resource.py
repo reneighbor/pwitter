@@ -55,7 +55,7 @@ class UsersBroadcastersList(ProtectedResource):
 
 	@marshal_with(fields, envelope='broadcaster')
 	def _post(self, username):
-		if username != g.user.username
+		if username != g.user.username:
 			raise ValueError("Not authorized to follow users on behalf another account")
 
 		parser = reqparse.RequestParser()

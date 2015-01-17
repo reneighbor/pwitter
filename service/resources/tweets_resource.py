@@ -14,9 +14,7 @@ fields = {
 
 class TweetsList(ProtectedResource):
 
-
     def _get(self):
-
         parser = reqparse.RequestParser()
 
         parser.add_argument('search')

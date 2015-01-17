@@ -35,8 +35,8 @@ if existing_users.count() > 0:
 	sys.exit()
 
 sid = 'US' + random_string(14)
-token = random_string(16)
-hashed_token = generate_password_hash(token)
+auth_token = random_string(16)
+hashed_token = generate_password_hash(auth_token)
 
 user = User(username = username,
 			user_sid = sid,
@@ -55,5 +55,5 @@ db.session.commit()
 
 db.session.close()
 
-print "Created user {}, username: {}, auth_token : {}".format(username, sid, token) 
+print "Created user {}, username: {}, auth_token : {}".format(username, sid, auth_token) 
 
