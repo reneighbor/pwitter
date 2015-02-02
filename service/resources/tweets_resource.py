@@ -21,9 +21,9 @@ class TweetsList(ProtectedResource):
 
         args = parser.parse_args()
     
-
         broadcaster2followers = Broadcaster2Follower.query.filter_by(
-            follower_id=g.user.id
+            follower_id=g.user.id,
+            active=True
         ).all()
 
         if len(broadcaster2followers) == 0:

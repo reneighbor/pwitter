@@ -25,7 +25,9 @@ class UsersFollowersList(ProtectedResource):
 
 
 		broadcaster2followers = Broadcaster2Follower.query.filter_by(
-			broadcaster_id = user.id).all()
+			broadcaster_id = user.id,
+			active = True
+		).all()
 
 		if len(broadcaster2followers) == 0:
 			return {'followers': {}}

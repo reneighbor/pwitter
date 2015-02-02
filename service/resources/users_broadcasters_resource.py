@@ -19,14 +19,16 @@ class UsersBroadcastersList(ProtectedResource):
 	def _get(self, username):
 
 		user = User.query.filter_by(
-			username=username).first()
+			username = username).first()
 
 		if not user:
-			raise ValueError("No user found for ".format(username))
+			raise Exception("No user found for YOU")
 
 
 		broadcaster2followers = Broadcaster2Follower.query.filter_by(
-			follower_id=user.id).all()
+			follower_id = user.id,
+			active = True
+		).all()
 
 		if len(broadcaster2followers) == 0:
 			return {'broadcasters': []}
@@ -85,7 +87,9 @@ class UsersBroadcastersList(ProtectedResource):
 
 		existing_follow = Broadcaster2Follower.query.filter_by(
 			broadcaster_id = broadcaster.id,
-			follower_id = user.id).first()
+			follower_id = user.id,
+			active = True
+		).first()
 
 		if existing_follow:
 			raise ValueError("Already following user {}".format(
@@ -131,7 +135,9 @@ class UsersBroadcastersInstance(ProtectedResource):
 
 		broadcaster2follower = Broadcaster2Follower.query.filter_by(
 			broadcaster_id = broadcaster.id,
-			follower_id = user.id).first()
+			follower_id = g.user.id,
+			active = True
+			).first()
 
 		if not broadcaster2follower:
 			raise ValueError("Not currently following {}".format(

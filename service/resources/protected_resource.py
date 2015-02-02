@@ -1,5 +1,5 @@
 from functools import wraps
-from exceptions import NotImplementedError
+from werkzeug.exceptions import HTTPException
 
 from flask import request, g
 from flask.ext.restful import Resource, abort
@@ -71,6 +71,12 @@ class ProtectedResource(Resource):
 				'message': "Method not allowed"
 				}
 			return error, 405
+		except HTTPException as e:
+			error = {
+				'status': 'client error',
+				'message': vars(e)
+				}
+			return error, 400	
 		except ValueError as e:
 			error = {
 				'status': 'client error',
