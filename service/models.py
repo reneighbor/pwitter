@@ -9,7 +9,6 @@ class User(db.Model):
     username = db.Column(db.String(64), unique=True)
     user_sid = db.Column(db.String(16), unique=True)
     hashed_token = db.Column(db.String(16), unique=True)
-    tweets = db.relationship('Tweet', backref='author')
 
     def __repr__(self):
         return '<User %r>' % (self.username)
@@ -32,7 +31,7 @@ class Tweet(db.Model):
     date_created = db.Column(db.DateTime)
     date_updated = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    username = db.Column(db.String(32), unique=True)
+    username = db.Column(db.String(32), db.ForeignKey('user.username'))
     body = db.Column(db.String(140))
 
     def __repr__(self):
