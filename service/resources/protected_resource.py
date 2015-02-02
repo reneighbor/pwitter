@@ -7,18 +7,24 @@ from werkzeug.security import check_password_hash
 
 from service import auth
 from service.models import User
+from service import logger
 
 
 @auth.verify_password
 def verify_pw(username, password):
-	user = User.query.filter_by(user_sid=username).first()
-	
-	if check_password_hash(user.hashed_token, password):
-		g.user = user
-		return True
+	try:
+		user = User.query.filter_by(user_sid=username).first()
+		
+		if not user:
+			logger.error("FOOOO")
+			raise Exception("No user for {}".format(username))
 
-	return False  
+		if check_password_hash(user.hashed_token, password):
+			g.user = user
+			return True
 
+	except Exception as e:
+		logger.error("Error: %s" % e)
 
 
 class ProtectedResource(Resource):
