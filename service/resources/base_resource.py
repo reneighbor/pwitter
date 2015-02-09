@@ -27,7 +27,7 @@ def verify_pw(username, password):
 		logger.error("Error: %s" % e)
 
 
-class ProtectedResource(Resource):
+class BaseResource(Resource):
 	method_decorators = [auth.login_required] 
 
 	def check_method(self, method):

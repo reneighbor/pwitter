@@ -1,11 +1,11 @@
 from datetime import datetime
 
-from flask import jsonify, abort
+from flask import jsonify, abort, g
 from flask.ext.restful import reqparse, fields, marshal_with, marshal
 
 from service import db
 from service.models import User, Broadcaster2Follower
-from protected_resource import ProtectedResource
+from base_resource import BaseResource
 
 
 fields = {
@@ -14,21 +14,12 @@ fields = {
     'date_followed': fields.DateTime(dt_format='rfc822'),
 }
 
-class UsersBroadcastersList(ProtectedResource):
+class UsersBroadcastersList(BaseResource):
 
 	def _get(self, username):
-
-		user = User.query.filter_by(
-			username = username).first()
-
-		if not user:
-			raise Exception("No user found for YOU")
-
-
 		broadcaster2followers = Broadcaster2Follower.query.filter_by(
-			follower_id = user.id,
-			active = True
-		).all()
+			follower_id = g.user.id,
+			active = True).all()
 
 		if len(broadcaster2followers) == 0:
 			return {'broadcasters': []}
@@ -38,7 +29,7 @@ class UsersBroadcastersList(ProtectedResource):
 
 		for b2f in broadcaster2followers:
 			broadcaster = User.query.filter_by(
-				id=b2f.broadcaster_id).first()
+				id = b2f.broadcaster_id).first()
 
 			if not broadcaster:
 				raise Exception("No user exists for user_id {}".format(
@@ -55,30 +46,22 @@ class UsersBroadcastersList(ProtectedResource):
 		return {'broadcasters': broadcaster_results}
 
 
-	@marshal_with(fields, envelope='broadcaster')
+	@marshal_with(fields, envelope = 'broadcaster')
 	def _post(self, username):
 		if username != g.user.username:
 			raise ValueError("Not authorized to follow users on behalf another account")
 
 		parser = reqparse.RequestParser()
-
 		parser.add_argument('username',
-			required=True,
-			dest='broadcaster_name')
+			required = True,
+			dest = 'broadcaster_name')
 
 		args = parser.parse_args()
 
-		
 
-		user = User.query.filter_by(
-			username=username).first()
-
-		if not user:
-			raise ValueError("No user found for YOU")
-		
 
 		broadcaster = User.query.filter_by(
-			username=args['broadcaster_name']).first()
+			username = args['broadcaster_name']).first()
 
 		if not broadcaster:
 			raise ValueError("No user found for '{}'".format(
@@ -88,8 +71,7 @@ class UsersBroadcastersList(ProtectedResource):
 		existing_follow = Broadcaster2Follower.query.filter_by(
 			broadcaster_id = broadcaster.id,
 			follower_id = user.id,
-			active = True
-		).first()
+			active = True).first()
 
 		if existing_follow:
 			raise ValueError("Already following user {}".format(
@@ -117,7 +99,7 @@ class UsersBroadcastersList(ProtectedResource):
 		return result, 201
 
 
-class UsersBroadcastersInstance(ProtectedResource):
+class UsersBroadcastersInstance(BaseResource):
 
 	@marshal_with(fields, envelope='broadcaster')
 	def _delete(self, username, broadcaster_name):
@@ -136,8 +118,7 @@ class UsersBroadcastersInstance(ProtectedResource):
 		broadcaster2follower = Broadcaster2Follower.query.filter_by(
 			broadcaster_id = broadcaster.id,
 			follower_id = g.user.id,
-			active = True
-			).first()
+			active = True).first()
 
 		if not broadcaster2follower:
 			raise ValueError("Not currently following {}".format(

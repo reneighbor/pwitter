@@ -1,61 +1,72 @@
-import sys
-sys.path.append('/Users/renee/Projects/personal-projects/Pwitter')
+import os
 import unittest
-import requests
-from requests.auth import HTTPBasicAuth
-from werkzeug.security import generate_password_hash
+import json
 
 from flask.ext.testing import TestCase
 
-from service import app, db
-from service.models import User
-import testing
-from testing import testing_client
-
-usersid = "US9888d60335c34"
-auth_token = "c6ca447dcd104907"
-
-
-class PwitterTest():
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
-    TESTING = True
-
-    def setUp(self):
-        db.create_all()
-
-        hashed_token = generate_password_hash(auth_token)
-
-        user = User(user_sid=usersid,
-                    username="testrunner",
-                    hashed_token=hashed_token)
-
-        db.session.add(user)
-        db.session.commit()
-
-    def tearDown(self): 
-        db.session.remove()
-        db.drop_all()
-
-
-def test_foo():
-
-    t = testing_client.post(
-        'http://127.0.0.1:5000/users/testrunner/tweets', 
-        [usersid, auth_token])
-
-    print vars(t)
+from service import app
+from base_resource_test import BaseTest, auth_headers
 
 
 
-def main():
-    pt = PwitterTest()
+class TweetResourceTest(BaseTest):
 
-    pt.setUp()
-    test_foo()
+    def test_view_tweets_success(self):
+        r = self.app.get(
+            '/tweets',
+            headers=auth_headers('reneighbor'),
+        )
+
+        assert r._status_code == 200
+
+        tweets = json.loads(r.data)['tweets']
+        assert len(tweets) == 2
+
+        assert tweets[0]['username'] == 'trenton'
+        assert tweets[0]['body'] == 'burning man'
+        assert tweets[0]['date_created'] == "Fri, 02 Jan 2015 00:00:00 -0000"
+
+        assert tweets[1]['username'] == 'reneighbor'
+        assert tweets[1]['body'] == 'hello world'
+        assert tweets[1]['date_created'] == "Thu, 01 Jan 2015 00:00:00 -0000"
+
+
+    def test_view_tweets_search(self):
+        r = self.app.get(
+            '/tweets?search=world',
+            headers=auth_headers('reneighbor'),
+        )
+
+        assert r._status_code == 200
+
+        tweets = json.loads(r.data)['tweets']
+        assert len(tweets) == 1
+
+        assert tweets[0]['username'] == 'reneighbor'
+        assert tweets[0]['body'] == 'hello world'
+        assert tweets[0]['date_created'] == "Thu, 01 Jan 2015 00:00:00 -0000"
+
+
+    def test_view_tweets_not_following_anyone(self):
+        r = self.app.get(
+            '/tweets',
+            headers=auth_headers('trenton'),
+        )
+
+        assert r._status_code == 200
+
+        tweets = json.loads(r.data)['tweets']
+        assert len(tweets) == 1
+
+        assert tweets[0]['username'] == 'trenton'
+        assert tweets[0]['body'] == 'burning man'
+        assert tweets[0]['date_created'] == "Fri, 02 Jan 2015 00:00:00 -0000"
+
+        
+
+
 
 
 if __name__ == '__main__':
-    main()
-
-
+    unittest.main()
 

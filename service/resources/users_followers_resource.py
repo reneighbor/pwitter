@@ -5,8 +5,7 @@ from flask.ext.restful import fields, reqparse, marshal_with, marshal
 
 from service import db
 from service.models import User, Broadcaster2Follower
-from protected_resource import ProtectedResource
-
+from base_resource import BaseResource
 
 fields = {
 	'username': fields.String,
@@ -14,7 +13,7 @@ fields = {
 	'date_followed': fields.DateTime(dt_format='rfc822'),
 }
 
-class UsersFollowersList(ProtectedResource):
+class UsersFollowersList(BaseResource):
 
 	def get(self, username):
 		user = User.query.filter_by(
@@ -37,7 +36,8 @@ class UsersFollowersList(ProtectedResource):
 
 		for b2f in broadcaster2followers:
 			follower = User.query.filter_by(
-				id=b2f.follower_id).first()
+				id = b2f.follower_id
+			).first()
 
 			if not follower:
 				raise Exception("No user exists for user_id {}".format(

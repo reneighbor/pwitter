@@ -3,7 +3,7 @@ from flask.ext.restful import fields, reqparse, marshal
 from sqlalchemy import or_
 
 from service.models import Broadcaster2Follower, Tweet
-from protected_resource import ProtectedResource
+from base_resource import BaseResource
 
 
 fields = {
@@ -12,23 +12,18 @@ fields = {
     'body': fields.String,
 }
 
-class TweetsList(ProtectedResource):
+class TweetsList(BaseResource):
 
     def _get(self):
         parser = reqparse.RequestParser()
-
         parser.add_argument('search')
-
         args = parser.parse_args()
-    
+
+        
+
         broadcaster2followers = Broadcaster2Follower.query.filter_by(
-            follower_id=g.user.id,
-            active=True
-        ).all()
-
-        if len(broadcaster2followers) == 0:
-            return {'tweets':[]}
-
+            follower_id = g.user.id,
+            active = True).all()
 
         broadcasters = [g.user.id]
 
@@ -36,16 +31,15 @@ class TweetsList(ProtectedResource):
             broadcasters.append(b2f.broadcaster_id)
 
 
+
+        query = Tweet.query.filter(Tweet.user_id.in_(broadcasters))
+
         if args.get('search'):
-            tweets = Tweet.query.filter(or_(
-                Tweet.body.like(args['search']),
-                Tweet.user_id.in_(broadcasters)
-            )).all()
-        
-        else:
-            tweets = Tweet.query.filter_by(
-                Tweet.user_id.in_(broadcasters)
-            ).all()
+            query = query.filter(Tweet.body.like("%{}%".format(args['search'])))
+           
+        query = query.order_by(Tweet.date_created.desc())
+        tweets = query.all()
+
 
         
         tweet_results = []

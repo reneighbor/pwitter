@@ -4,8 +4,8 @@ from flask import g
 from flask.ext.restful import reqparse, fields, marshal_with, marshal
 
 from service import db
-from service.models import Tweet
-from protected_resource import ProtectedResource
+from service.models import Tweet, User
+from base_resource import BaseResource
 
 
 fields = {
@@ -14,22 +14,32 @@ fields = {
     'body': fields.String,
 }
 
-class UsersTweetsList(ProtectedResource):
+class UsersTweetsList(BaseResource):
 
     def _get(self, username):
         parser = reqparse.RequestParser()
-
         parser.add_argument('search')
-
         args = parser.parse_args()
 
-        tweets = Tweet.query.filter_by(
-            user_id = g.user.id
-        ).all()
 
 
-        if len(tweets) == 0:
-            return {'tweets': []}
+        user = User.query.filter_by(
+            username = username).first()
+
+        if not user:
+            raise ValueError('No user ' + username)
+
+
+
+        query = Tweet.query.filter_by(user_id = user.id)
+
+        if args.get('search'):
+            query = query.filter(Tweet.body.like("%{}%".format(args['search'])))
+
+        query = query.order_by(Tweet.date_created.desc())
+        tweets = query.all()
+
+
 
         tweet_results = []
 
@@ -50,12 +60,13 @@ class UsersTweetsList(ProtectedResource):
         if username != g.user.username:
             raise ValueError("Not authorized to tweet on behalf of another user")
 
-        parser = reqparse.RequestParser()
 
+        parser = reqparse.RequestParser()
         parser.add_argument('body',
             required=True)
 
         args = parser.parse_args()
+
 
         tweet = Tweet(
             username = g.user.username,
