@@ -27,7 +27,7 @@ class UsersTweetsList(BaseResource):
             username = username).first()
 
         if not user:
-            raise ValueError('No user ' + username)
+            raise ValueError('No user {}'.format(username))
 
 
 
@@ -57,27 +57,37 @@ class UsersTweetsList(BaseResource):
 
     @marshal_with(fields, envelope='tweet')
     def _post(self, username):
-        if username != g.user.username:
+        user = User.query.filter_by(
+            username = username).first()
+
+        if not user:
+            raise ValueError("No user {}".format(username))
+
+        if user.id != g.user.id:
             raise ValueError("Not authorized to tweet on behalf of another user")
+
 
 
         parser = reqparse.RequestParser()
         parser.add_argument('body',
             required=True)
-
         args = parser.parse_args()
 
+
+
+        if args['body'] == '':
+            raise ValueError("'body' argument is empty")
 
         tweet = Tweet(
             username = g.user.username,
             user_id = g.user.id,
             date_created = datetime.now(),
             date_updated = datetime.now(),
-            body=args['body']
+            body = args['body']
         )
-
         db.session.add(tweet)
         db.session.commit()
+
 
         result = {
             'username': tweet.username,

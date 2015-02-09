@@ -89,3 +89,7 @@ Error:
 2015-02-01 20:55:55,233 base_resource.py Error: No user for foo
 2015-02-01 20:56:01,769 base_resource.py FOOOO
 2015-02-01 20:56:01,769 base_resource.py Error: No user for foo
+2015-02-08 18:19:03,543 base_resource.py FOOOO
+2015-02-08 18:19:03,544 base_resource.py Error: No user for US817c89ff595948
+2015-02-08 18:20:17,031 base_resource.py FOOOO
+2015-02-08 18:20:17,031 base_resource.py Error: No user for US817c89ff595948

@@ -17,12 +17,19 @@ fields = {
 class UsersBroadcastersList(BaseResource):
 
 	def _get(self, username):
+		user = User.query.filter_by(
+			username = username).first()
+
+		if not user:
+			raise ValueError('No user {}'.format(username))
+
 		broadcaster2followers = Broadcaster2Follower.query.filter_by(
-			follower_id = g.user.id,
+			follower_id = user.id,
 			active = True).all()
 
 		if len(broadcaster2followers) == 0:
 			return {'broadcasters': []}
+
 
 
 		broadcaster_results = []
@@ -32,8 +39,10 @@ class UsersBroadcastersList(BaseResource):
 				id = b2f.broadcaster_id).first()
 
 			if not broadcaster:
-				raise Exception("No user exists for user_id {}".format(
+				raise Exception("No user exists for broadcaster with ID: {}".format(
 					b2f.broadcaster_id))
+
+
 
 			broadcaster_result = marshal({
 				'username': broadcaster.username,
