@@ -1,6 +1,5 @@
 from flask import g
 from flask.ext.restful import fields, reqparse, marshal
-from sqlalchemy import or_
 
 from service.models import Broadcaster2Follower, Tweet
 from base_resource import BaseResource
@@ -20,12 +19,11 @@ class TweetsList(BaseResource):
         args = parser.parse_args()
 
         
+        broadcasters = [g.user.id]
 
         broadcaster2followers = Broadcaster2Follower.query.filter_by(
             follower_id = g.user.id,
             active = True).all()
-
-        broadcasters = [g.user.id]
 
         for b2f in broadcaster2followers:
             broadcasters.append(b2f.broadcaster_id)

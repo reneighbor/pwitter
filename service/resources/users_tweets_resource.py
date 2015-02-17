@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from flask import g
-from flask.ext.restful import reqparse, fields, marshal_with, marshal
+from flask.ext.restful import fields, reqparse, marshal_with, marshal
 
 from service import db
 from service.models import Tweet, User
@@ -87,6 +87,7 @@ class UsersTweetsList(BaseResource):
         )
         db.session.add(tweet)
         db.session.commit()
+
 
 
         result = {

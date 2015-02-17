@@ -1,25 +1,19 @@
-import os
-import sys
-sys.path.append('/Users/renee/Projects/personal-projects/Pwitter')
 import unittest
-from base64 import b64encode
 import json
-from datetime import datetime
+import datetime
 from time import strftime
 
-from flask.ext.testing import TestCase
-from flask.ext.fixtures import Fixtures, loaders
+import sys
+sys.path.append('/Users/renee/Projects/personal-projects/Pwitter')
 
-from service import app, db
+from service import db
 from service.models import Tweet
-from base_resource_test import BaseTest, auth_headers
+from base_test import BaseTest, auth_headers
 
-
-fixtures = Fixtures(app, db)
 
 class TweetResourceTest(BaseTest):
 
-    def test_view_user_tweets_success(self):
+    def test_view_user_tweets(self):
         r = self.app.get(
             '/users/reneighbor/tweets',
             headers=auth_headers('reneighbor'),
@@ -35,19 +29,7 @@ class TweetResourceTest(BaseTest):
         assert tweets[0]['date_created'] == "Thu, 01 Jan 2015 00:00:00 -0000"
 
 
-    def test_view_user_tweets_no_user(self):
-        r = self.app.get(
-            '/users/nobody/tweets',
-            headers=auth_headers('reneighbor'),
-        )
-
-        assert r._status_code == 400
-
-        response = json.loads(r.data)
-        assert response['message'] == "No user nobody"
-       
-
-    def test_view_other_user_tweets_success(self):
+    def test_view_other_user_tweets(self):
         r = self.app.get(
             '/users/trenton/tweets',
             headers=auth_headers('reneighbor'),
@@ -63,7 +45,7 @@ class TweetResourceTest(BaseTest):
         assert tweets[0]['date_created'] == "Fri, 02 Jan 2015 00:00:00 -0000"
 
 
-    def test_view_user_tweets_search_success(self):
+    def test_view_user_tweets_search(self):
         r = self.app.get(
             '/users/reneighbor/tweets?query=hello',
             headers=auth_headers('reneighbor'),
@@ -79,7 +61,7 @@ class TweetResourceTest(BaseTest):
         assert tweets[0]['date_created'] == "Thu, 01 Jan 2015 00:00:00 -0000"
         
 
-    def test_view_user_tweets_search_no_tweets(self):
+    def test_view_user_tweets_search_none_found(self):
         r = self.app.get(
             '/users/reneighbor/tweets?search=goodbye',
             headers = auth_headers('reneighbor'),
@@ -91,6 +73,48 @@ class TweetResourceTest(BaseTest):
         assert len(tweets) == 0
 
 
+    def test_view_user_tweets_verify_sort_order(self):
+
+        # altering the fixtures
+        older_tweet = Tweet(
+            username = 'reneighbor',
+            user_id = 1,
+            body = 'chicken dinner',
+            date_created = datetime.date(2014, 1, 1)
+        )
+
+        db.session.add(older_tweet)
+        db.session.commit()
+
+        r = self.app.get(
+            '/users/reneighbor/tweets',
+            headers = auth_headers('reneighbor'),
+        )
+
+        assert r._status_code == 200
+
+        tweets = json.loads(r.data)['tweets']
+        assert len(tweets) == 2
+
+        assert tweets[0]['username'] == 'reneighbor'
+        assert tweets[0]['body'] == 'hello world'
+        assert tweets[0]['date_created'] == "Thu, 01 Jan 2015 00:00:00 -0000"
+
+        assert tweets[1]['username'] == 'reneighbor'
+        assert tweets[1]['body'] == 'chicken dinner'
+        assert tweets[1]['date_created'] == "Wed, 01 Jan 2014 00:00:00 -0000"
+
+
+    def test_view_user_tweets_no_user(self):
+        r = self.app.get(
+            '/users/nobody/tweets',
+            headers=auth_headers('reneighbor'),
+        )
+
+        assert r._status_code == 400
+
+        response = json.loads(r.data)
+        assert response['message'] == "No user nobody"
 
 
     def test_post_to_user_tweets_success(self):
@@ -122,7 +146,7 @@ class TweetResourceTest(BaseTest):
         assert response['message'] == "No user nobody"
     
 
-    def test_post_to_other_user_tweets_fail(self):
+    def test_post_to_other_user_tweets_not_authorized(self):
         r = self.app.post(
             '/users/trenton/tweets',
             headers = auth_headers('reneighbor'),
@@ -147,7 +171,7 @@ class TweetResourceTest(BaseTest):
         assert response['message']['data']['message'] == "Missing required parameter body in the JSON body or the post body or the query string"
          
 
-    def test_post_to_user_tweets_body_emtpy_string_fail(self):
+    def test_post_to_user_tweets_body_emtpy_string(self):
         r = self.app.post(
             '/users/reneighbor/tweets',
             headers = auth_headers('reneighbor'),

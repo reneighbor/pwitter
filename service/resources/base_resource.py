@@ -1,23 +1,20 @@
-from functools import wraps
 from werkzeug.exceptions import HTTPException
-
-from flask import request, g
-from flask.ext.restful import Resource, abort
 from werkzeug.security import check_password_hash
 
-from service import auth
+from flask import g
+from flask.ext.restful import Resource
+
+from service import auth, logger
 from service.models import User
-from service import logger
 
 
 @auth.verify_password
-def verify_pw(username, password):
+def verify_pw(user_sid, password):
 	try:
-		user = User.query.filter_by(user_sid=username).first()
+		user = User.query.filter_by(user_sid=user_sid).first()
 		
 		if not user:
-			logger.error("FOOOO")
-			raise Exception("No user for {}".format(username))
+			raise Exception("No user for {}".format(user_sid))
 
 		if check_password_hash(user.hashed_token, password):
 			g.user = user
@@ -35,28 +32,20 @@ class BaseResource(Resource):
 			raise NotImplementedError
 		return
 
+
 	def get(self, *args, **kwargs):
 		try:
 			self.check_method("_get")
 			data = self._get(*args, **kwargs)
 			return data
 		except NotImplementedError:
-			error = {
-				'status': 'client error',
-				'message': "Method not allowed"
-				}
+			error = {'message': "Method not allowed"}
 			return error, 405
 		except ValueError as e:
-			error = {
-				'status': 'client error',
-				'message': e.message
-				}
+			error = {'message': e.message}
 			return error, 400
 		except BaseException as e:
-			error = {
-				'status': 'server error',
-				'message': e.message
-				}
+			error = {'message': e.message}
 		return error, 500
 
 
@@ -66,28 +55,16 @@ class BaseResource(Resource):
 			data = self._post(*args, **kwargs)
 			return data
 		except NotImplementedError:
-			error = {
-				'status': 'client error',
-				'message': "Method not allowed"
-				}
+			error = {'message': "Method not allowed"}
 			return error, 405
 		except HTTPException as e:
-			error = {
-				'status': 'client error',
-				'message': vars(e)
-				}
+			error = {'message': vars(e)}
 			return error, 400	
 		except ValueError as e:
-			error = {
-				'status': 'client error',
-				'message': e.message
-				}
+			error = {'message': e.message}
 			return error, 400
 		except BaseException as e:
-			error = {
-				'status': 'server error',
-				'message': e.message
-				}
+			error = {'message': e.message}
 		return error, 500
 
 
@@ -97,22 +74,13 @@ class BaseResource(Resource):
 			data = self._delete(*args, **kwargs)
 			return data
 		except NotImplementedError:
-			error = {
-				'status': 'client error',
-				'message': "Method not allowed"
-				}
+			error = {'message': "Method not allowed"}
 			return error, 405
 		except ValueError as e:
-			error = {
-				'status': 'client error',
-				'message': e.message
-				}
+			error = {'message': e.message}
 			return error, 400
 		except Exception as e:
-			error = {
-				'status': 'server error',
-				'message': e.message
-				}
+			error = {'message': e.message}
 		return error, 500
 
 
