@@ -34,6 +34,7 @@ if existing_users.count() > 0:
 	print "User with name {} already exists".format(username)
 	sys.exit()
 
+
 sid = 'US' + random_string(14)
 auth_token = random_string(16)
 hashed_token = generate_password_hash(auth_token)
