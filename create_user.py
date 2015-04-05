@@ -57,5 +57,5 @@ db.session.commit()
 db.session.close()
 
 print "Created user {}, user_sid: {}, auth_token : {}".format(username, sid, auth_token) 
-print "This is a test"
-print "This is another test to test post-receive hook"
+
+
