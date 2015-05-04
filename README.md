@@ -35,7 +35,7 @@ Response:
 optional parameter "search" to filter results by tweet body.
 
 ```
-curl -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets?search=monkey
+curl -XDELETE -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets?search=monkey
 ```
 
 Response:
@@ -55,7 +55,7 @@ Response:
 parameter "body," for tweet body.
 
 ```
-curl -XPOST -u <username>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets -d body=hello%20world```
+curl -XPOST -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets -d body=hello%20world```
 ```
 Response:
 ```
@@ -114,7 +114,7 @@ Response:
 to indicate the username of the person you're trying to follow.
 
 ```
-curl -XPOST -u <username>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters -d username="tartine"
+curl -XPOST -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters -d username="tartine"
 ```
 
 Response:
