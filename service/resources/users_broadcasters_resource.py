@@ -159,11 +159,4 @@ class UsersBroadcastersInstance(BaseResource):
         db.session.commit()
 
 
-
-        result = {  
-            'username': broadcaster.username,
-            'date_created': broadcaster.date_created,
-            'date_unfollowed': broadcaster2follower.date_updated
-        }
-
-        return result, 204
+        return ('', 204)

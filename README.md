@@ -16,18 +16,17 @@ Response:
 {
     "tweets": [
         {
-            "body": "monkey jungle",
-            "date_created": "Mon, 04 May 2015 00:03:07 -0000",
-            "username": "reneighbor"
-        },
-        {
             "body": "monkey fingers",
-            "date_created": "Sun, 26 Apr 2015 23:07:28 -0000",
+            "date_created": "Mon, 04 May 2015 06:55:52 -0000",
             "username": "trenton"
         },
-      ]
-}
-```
+        {
+            "body": "monkey jungle",
+            "date_created": "Mon, 04 May 2015 06:53:39 -0000",
+            "username": "reneighbor"
+        }
+    ]
+}```
 
 ##UsersTweets resource <code>('/users/\<username\>/tweets') </code>
 
@@ -44,9 +43,10 @@ Response:
     "tweets": [
         {
             "body": "monkey jungle",
-            "date_created": "Mon, 04 May 2015 00:03:07 -0000",
+            "date_created": "Mon, 04 May 2015 06:53:39 -0000",
             "username": "reneighbor"
         }
+    ]
 }
 ```
 </br>
@@ -80,9 +80,9 @@ Response:
 {
     "followers": [
         {
-            "date_created": "Mon, 16 Feb 2015 18:43:36 -0000",
-            "date_followed": "Mon, 04 May 2015 00:14:28 -0000",
-            "username": "mont.e.python"
+            "date_created": "Mon, 04 May 2015 06:10:07 -0000",
+            "date_followed": "Mon, 04 May 2015 06:56:32 -0000",
+            "username": "jess"
         }
     ]
 }
