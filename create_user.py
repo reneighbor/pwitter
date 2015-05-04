@@ -1,5 +1,7 @@
 import sys
 import uuid
+import string
+import random
 from datetime import datetime
 from werkzeug.security import generate_password_hash
 
@@ -12,12 +14,17 @@ from service.models import User
 
 
 
-def random_string(string_length=14):
+def random_uuid(string_length=14):
 
-    random = str(uuid.uuid4()) # Convert UUID format to a Python string.
-    random = random.replace("-","") # Remove the UUID '-'.
+    random = str(uuid.uuid4())
+    random = random.replace("-","")
     
-    return random[0:string_length] # Return the random string.
+    return random[0:string_length]
+
+
+def random_string(string_length=16):
+
+    return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for i in range(string_length))
 
 
 
@@ -35,8 +42,8 @@ if existing_users.count() > 0:
 	sys.exit()
 
 
-sid = 'US' + random_string(14)
-auth_token = random_string(16)
+sid = 'US' + random_uuid()
+auth_token = random_string()
 hashed_token = generate_password_hash(auth_token)
 
 user = User(username = username,
