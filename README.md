@@ -8,7 +8,7 @@ A Twitter clone in Python/Flask
 optional parameter "search" to filter results by tweet body.
 
 ```
-curl -u <username>:<auth_token> http://127.0.0.1:5000/tweets?search=monkey
+curl -u <user_sid>:<auth_token> http://127.0.0.1:5000/tweets?search=monkey
 ```
 
 Response:
@@ -35,7 +35,7 @@ Response:
 optional parameter "search" to filter results by tweet body.
 
 ```
-curl -u <username>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets?search=monkey
+curl -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets?search=monkey
 ```
 
 Response:
@@ -73,7 +73,7 @@ Response:
 <strong>GET</strong> - see everyone following you.
 
 ```
-curl -u <username>:<auth_token> http://127.0.0.1:5000/users/reneighbor/followers
+curl -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/followers
 ```
 
 Response:
@@ -94,7 +94,7 @@ Response:
 <strong>GET</strong> - see everyone you follow.
 
 ```
-curl -u <username>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters
+curl -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters
 ```
 
 Response:
@@ -134,7 +134,7 @@ Response:
 <strong>DELETE</strong> - stop following someone.
 
 ```
-curl -u <username>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters/tartine
+curl -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters/tartine
 ```
 
 Response:
