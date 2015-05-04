@@ -113,7 +113,7 @@ Response:
 to indicate the username of the person you're trying to follow.
 
 ```
-curl -XPOST -u <username>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters -d username="ailey"
+curl -XPOST -u <username>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters -d username="tartine"
 ```
 
 Response:
@@ -123,7 +123,7 @@ Response:
         {
             "date_created": "Mon, 04 May 2015 00:14:20 -0000",
             "date_followed": "Mon, 04 May 2015 00:14:28 -0000",
-            "username": "ailey"
+            "username": "tartine"
         }
 }
 ```
@@ -133,7 +133,7 @@ Response:
 <strong>DELETE</strong> - stop following someone.
 
 ```
-curl -u <username>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters/ailey
+curl -u <username>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters/tartine
 ```
 
 Response:
