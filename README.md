@@ -26,7 +26,8 @@ Response:
             "username": "reneighbor"
         }
     ]
-}```
+}
+```
 
 ##UsersTweets resource <code>('/users/\<username\>/tweets') </code>
 
@@ -101,8 +102,8 @@ Response:
 {
     "broadcasters": [
         {
-            "date_created": "Mon, 16 Feb 2015 18:43:36 -0000",
-            "date_followed": "Mon, 16 Feb 2015 18:55:00 -0000",
+            "date_created": "Mon, 16 Feb 2015 18:43:49 -0000",
+            "date_followed": "Mon, 04 May 2015 00:14:28 -0000",
             "username": "trenton"
         }
     ]
