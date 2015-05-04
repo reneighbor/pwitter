@@ -25,7 +25,6 @@ auth = HTTPBasicAuth()
 
 # Importing resources after SqlAlchemy object is 
 # created to avoid circular imports
-from resources.users_resource import UsersList
 from resources.users_broadcasters_resource import UsersBroadcastersList, UsersBroadcastersInstance
 from resources.users_followers_resource import UsersFollowersList
 from resources.tweets_resource import TweetsList
