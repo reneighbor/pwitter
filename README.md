@@ -55,7 +55,7 @@ Response:
 parameter "body," for tweet body.
 
 ```
-curl -XPOST -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets -d body=hello%20world```
+curl -XPOST -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets -d body=hello%20world
 ```
 Response:
 ```
@@ -134,7 +134,7 @@ Response:
 <strong>DELETE</strong> - stop following someone.
 
 ```
-curl -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters/tartine
+curl -XDELETE -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/broadcasters/tartine
 ```
 
 Response:
