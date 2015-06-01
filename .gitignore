@@ -2,5 +2,4 @@
 *.pyc
 *log
 .db_repository/*
-create_user.py
 app.db
