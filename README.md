@@ -25,7 +25,7 @@ python create_db.py
 Run the database migration
 ```
 $ python migrate_db.py
-New migration saved as ~/Projects/Pwitter/db_repository/versions/001_migration.py
+New migration saved as ~/Projects/pwitter/db_repository/versions/001_migration.py
 Current database version: 1
 ```
 
@@ -36,9 +36,15 @@ Created user `heidi`:
 curl -u USd7bae769d44942:WOMCM209PBT083TW
 ```
 
-Create other users as needed. Save the user sid and auth token output for HTTP requests to the service, as described
-below.
+Create other users as needed. Save the user sid and auth token output for HTTP requests to the service.
 
+
+Start the service
+```
+$ python runserver.py
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+```
 
 ##REST Resources
 ###TweetsList resource <code>('/tweets') </code>
