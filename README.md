@@ -1,9 +1,3 @@
-# Welcome to Pwitter
-A Twitter clone in Python/Flask
-
-
-
-
 ##Installation steps:
 
 In the project directory, run the following commands:
@@ -11,8 +5,10 @@ In the project directory, run the following commands:
 Install the requirements
 ```
 pip install -r requirements.txt
+```
 
 Run tests:
+```
 $ nosetests
 .......................................
 ----------------------------------------------------------------------
