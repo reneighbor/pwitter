@@ -39,7 +39,7 @@ curl -u USd7bae769d44942:WOMCM209PBT083TW
 Create other users as needed. Save the user sid and auth token output for HTTP requests to the service.
 
 
-Start the service
+Lastly, start the service
 ```
 $ python runserver.py
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
