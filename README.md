@@ -2,6 +2,49 @@
 A Twitter clone in Python/Flask
 
 
+
+
+##Installation steps:
+
+In the project directory, run the following commands:
+
+Install the requirements
+```
+pip install -r requirements.txt
+
+Run tests:
+$ nosetests
+.......................................
+----------------------------------------------------------------------
+Ran 39 tests in 0.804s
+
+OK
+```
+
+Create the database
+```
+python create_db.py
+```
+
+Run the database migration
+```
+$ python migrate_db.py
+New migration saved as /Users/renee/Projects/personal-projects/Pwitter/db_repository/versions/003_migration.py
+Current database version: 3
+```
+
+Create the first user, specifying the username
+```
+$ python create_user.py heidi
+Created user `heidi`:
+curl -u USd7bae769d44942:WOMCM209PBT083TW
+```
+
+Create other users as needed. Save the user sid and auth token output for HTTP requests to the service, as described
+below.
+
+
+
 ##TweetsList resource <code>('/tweets') </code>
 
 <strong>GET</strong> - see all tweets visible to you (yours and your broadcasters').  Include the 
