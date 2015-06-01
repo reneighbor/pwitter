@@ -25,8 +25,8 @@ python create_db.py
 Run the database migration
 ```
 $ python migrate_db.py
-New migration saved as /Users/renee/Projects/personal-projects/Pwitter/db_repository/versions/003_migration.py
-Current database version: 3
+New migration saved as ~/Projects/Pwitter/db_repository/versions/001_migration.py
+Current database version: 1
 ```
 
 Create the first user, specifying the username
