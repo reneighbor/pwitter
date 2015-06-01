@@ -7,7 +7,7 @@ Install the requirements
 pip install -r requirements.txt
 ```
 
-Run tests:
+Run tests
 ```
 $ nosetests
 .......................................
@@ -70,11 +70,11 @@ Response:
 
 ##UsersTweets resource <code>('/users/\<username\>/tweets') </code>
 
-<strong>GET</strong> - see all your tweets.  Include the 
+<strong>GET</strong> - see all tweets of one user.  Include the
 optional parameter "search" to filter results by tweet body.
 
 ```
-curl -XDELETE -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets?search=monkey
+curl -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets?search=monkey
 ```
 
 Response:
@@ -94,8 +94,9 @@ Response:
 parameter "body," for tweet body.
 
 ```
-curl -XPOST -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets -d body=hello%20world```
+curl -XPOST -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets -d body=hello%20world
 ```
+
 Response:
 ```
 {
