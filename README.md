@@ -40,8 +40,8 @@ Create other users as needed. Save the user sid and auth token output for HTTP r
 below.
 
 
-
-##TweetsList resource <code>('/tweets') </code>
+##REST Resources
+###TweetsList resource <code>('/tweets') </code>
 
 <strong>GET</strong> - see all tweets visible to you (yours and your broadcasters').  Include the 
 optional parameter "search" to filter results by tweet body.
@@ -68,7 +68,7 @@ Response:
 }
 ```
 
-##UsersTweets resource <code>('/users/\<username\>/tweets') </code>
+###UsersTweets resource <code>('/users/\<username\>/tweets') </code>
 
 <strong>GET</strong> - see all tweets of one user.  Include the
 optional parameter "search" to filter results by tweet body.
@@ -108,7 +108,7 @@ Response:
 }
 ```
 
-##UsersFollowers List resource <code>('/users/\<username\>/followers') </code>
+###UsersFollowers List resource <code>('/users/\<username\>/followers') </code>
 
 <strong>GET</strong> - see everyone following you.
 
@@ -129,7 +129,7 @@ Response:
 }
 ```
 
-##UsersBroadcasters List resource <code>('/users/\<username\>/broadcasters') </code>
+###UsersBroadcasters List resource <code>('/users/\<username\>/broadcasters') </code>
 
 <strong>GET</strong> - see everyone you follow.
 
@@ -169,7 +169,7 @@ Response:
 }
 ```
 
-##UsersBroadcasters Instance resource <code>('/users/\<username\>/broadcasters/\<broadcaster_name\>') </code>
+###UsersBroadcasters Instance resource <code>('/users/\<username\>/broadcasters/\<broadcaster_name\>') </code>
 
 <strong>DELETE</strong> - stop following someone.
 
