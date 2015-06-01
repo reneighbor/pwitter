@@ -1,8 +1,53 @@
-# Welcome to Pwitter
-A Twitter clone in Python/Flask
+##Installation steps:
+
+In the project directory, run the following commands:
+
+Install the requirements
+```
+pip install -r requirements.txt
+```
+
+Run tests
+```
+$ nosetests
+.......................................
+----------------------------------------------------------------------
+Ran 39 tests in 0.804s
+
+OK
+```
+
+Create the database
+```
+python create_db.py
+```
+
+Run the database migration
+```
+$ python migrate_db.py
+New migration saved as ~/Projects/pwitter/db_repository/versions/001_migration.py
+Current database version: 1
+```
+
+Create the first user, specifying the username
+```
+$ python create_user.py heidi
+Created user `heidi`:
+curl -u USd7bae769d44942:WOMCM209PBT083TW
+```
+
+Create other users as needed. Save the user sid and auth token output for HTTP requests to the service.
 
 
-##TweetsList resource <code>('/tweets') </code>
+Lastly, start the service
+```
+$ python runserver.py
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+```
+
+##REST Resources
+###TweetsList resource <code>('/tweets') </code>
 
 <strong>GET</strong> - see all tweets visible to you (yours and your broadcasters').  Include the 
 optional parameter "search" to filter results by tweet body.
@@ -29,13 +74,13 @@ Response:
 }
 ```
 
-##UsersTweets resource <code>('/users/\<username\>/tweets') </code>
+###UsersTweets resource <code>('/users/\<username\>/tweets') </code>
 
-<strong>GET</strong> - see all your tweets.  Include the 
+<strong>GET</strong> - see all tweets of one user.  Include the
 optional parameter "search" to filter results by tweet body.
 
 ```
-curl -XDELETE -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets?search=monkey
+curl -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets?search=monkey
 ```
 
 Response:
@@ -57,6 +102,7 @@ parameter "body," for tweet body.
 ```
 curl -XPOST -u <user_sid>:<auth_token> http://127.0.0.1:5000/users/reneighbor/tweets -d body=hello%20world
 ```
+
 Response:
 ```
 {
@@ -68,7 +114,7 @@ Response:
 }
 ```
 
-##UsersFollowers List resource <code>('/users/\<username\>/followers') </code>
+###UsersFollowers List resource <code>('/users/\<username\>/followers') </code>
 
 <strong>GET</strong> - see everyone following you.
 
@@ -89,7 +135,7 @@ Response:
 }
 ```
 
-##UsersBroadcasters List resource <code>('/users/\<username\>/broadcasters') </code>
+###UsersBroadcasters List resource <code>('/users/\<username\>/broadcasters') </code>
 
 <strong>GET</strong> - see everyone you follow.
 
@@ -129,7 +175,7 @@ Response:
 }
 ```
 
-##UsersBroadcasters Instance resource <code>('/users/\<username\>/broadcasters/\<broadcaster_name\>') </code>
+###UsersBroadcasters Instance resource <code>('/users/\<username\>/broadcasters/\<broadcaster_name\>') </code>
 
 <strong>DELETE</strong> - stop following someone.
 

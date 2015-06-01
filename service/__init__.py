@@ -33,16 +33,16 @@ from resources.users_tweets_resource import UsersTweetsList
 
 
 
-api.add_resource(TweetsList, 
+api.add_resource(TweetsList,
     '/tweets')
 
-api.add_resource(UsersTweetsList, 
+api.add_resource(UsersTweetsList,
     '/users/<string:username>/tweets')
 
-api.add_resource(UsersFollowersList, 
+api.add_resource(UsersFollowersList,
     '/users/<string:username>/followers')
 
-api.add_resource(UsersBroadcastersList, 
+api.add_resource(UsersBroadcastersList,
     '/users/<string:username>/broadcasters')
 
 api.add_resource(UsersBroadcastersInstance, 

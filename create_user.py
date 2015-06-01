@@ -63,6 +63,6 @@ db.session.commit()
 
 db.session.close()
 
-print "Created user {}, user_sid: {}, auth_token : {}".format(username, sid, auth_token) 
-
+print "Created user {}:".format(username)
+print "curl -u {}:{}".format(sid, auth_token)
 
