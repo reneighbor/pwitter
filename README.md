@@ -80,7 +80,7 @@ Response:
 optional parameter "search" to filter results by tweet body.
 
 ```
-curl http://127.0.0.1:5000/users/reneighbor/tweets?search=monkey
+curl http://127.0.0.1:5000/users/reneighbor/tweets
 ```
 
 Response:
