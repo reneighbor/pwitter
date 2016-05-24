@@ -80,7 +80,7 @@ Response:
 optional parameter "search" to filter results by tweet body.
 
 ```
-curl http://127.0.0.1:5000/users/reneighbor/tweets
+curl -u <username>:<password> http://127.0.0.1:5000/users/reneighbor/tweets?search=monkey
 ```
 
 Response:
@@ -88,13 +88,8 @@ Response:
 {
     "tweets": [
         {
-            "body": "hi there",
+            "body": "monkey jungle",
             "date_created": "Mon, 04 May 2015 06:53:39 -0000",
-            "username": "reneighbor"
-        },
-        {
-            "body": "hello world",
-            "date_created": "Mon, 04 May 2015 06:50:00 -0000",
             "username": "reneighbor"
         }
     ]
