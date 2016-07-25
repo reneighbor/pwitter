@@ -17,7 +17,6 @@ app.config.from_object('config')
 
 
 
-
 db = SQLAlchemy(app)
 api = Api(app)
 CORS(app)
