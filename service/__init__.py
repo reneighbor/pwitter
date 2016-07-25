@@ -4,7 +4,7 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restful import Api
 from flask.ext.httpauth import HTTPBasicAuth
-
+from flask.ext.cors import CORS
 
 logger = logging.getLogger('pwitter')
 hdlr = logging.FileHandler('log.log')
@@ -20,6 +20,7 @@ app.config.from_object('config')
 
 db = SQLAlchemy(app)
 api = Api(app)
+CORS(app)
 auth = HTTPBasicAuth()
 
 

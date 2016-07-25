@@ -1,5 +1,6 @@
 .idea/*
 *.pyc
 *log
-.db_repository/*
+db_repository/*
 app.db
+venv
