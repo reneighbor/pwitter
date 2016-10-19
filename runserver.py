@@ -1,2 +1,2 @@
 from service import app, resources
-app.run(debug=True)
+app.run(debug=True, threaded=True)
