@@ -21,15 +21,28 @@ OK
 
 Create the database
 ```
-alembic init
-alembic upgrade head
+$ alembic init
+Creating directory /Users/reneechu/Projects/pwitter/alembic ... done
+Creating directory /Users/reneechu/Projects/pwitter/alembic/versions ... done
+Generating /Users/reneechu/Projects/pwitter/alembic.ini ... done
+Generating /Users/reneechu/Projects/pwitter/alembic/env.py ... done
+Generating /Users/reneechu/Projects/pwitter/alembic/env.pyc ... done
+Generating /Users/reneechu/Projects/pwitter/alembic/README ... done
+Generating /Users/reneechu/Projects/pwitter/alembic/script.py.mako ... done
+Please edit configuration/connection/logging settings in
+'/Users/reneechu/Projects/pwitter/alembic.ini' before proceeding.
+
+$ alembic upgrade head
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> d8958b8d794f, initial create tables
 ```
 
 Create the first user, specifying the username
 ```
-$ python create_user.py heidi
-Created user `heidi`:
-curl -u USd7bae769d44942:WOMCM209PBT083TW
+$ python create_user.py vinsony
+Created user `vinsony`:
+curl -u USXXXXXXXXXXXXXX:YYYYYYYYYYYYYYYY -XPOST http://127.0.0.1:5000/users/vinsony/tweets -d body='Hello, World!'
 ```
 
 Create other users as needed. Save the user sid and auth token output for HTTP requests to the service.

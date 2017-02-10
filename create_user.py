@@ -64,5 +64,5 @@ db.session.commit()
 db.session.close()
 
 print "Created user {}:".format(username)
-print "curl -u {}:{}".format(sid, auth_token)
+print "curl -u {}:{} -XPOST http://127.0.0.1:5000/users/{}/tweets -d body='Hello, World!'".format(sid, auth_token, username)
 
