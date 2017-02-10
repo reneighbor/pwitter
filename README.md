@@ -4,9 +4,9 @@ In the project directory, run the following commands:
 
 Create/initialize the virtual environment and install the requirements
 ```
-virtualenv venv
-source venv/bin/activate
-pip install -r requirements.txt
+$ virtualenv venv
+$ source venv/bin/activate
+$ pip install -r requirements.txt
 ```
 
 Run tests
