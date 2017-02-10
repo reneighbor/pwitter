@@ -12,7 +12,6 @@ from service.models import User
 def verify_pw(user_sid, password):
 	try:
 		user = User.query.filter_by(user_sid=user_sid).first()
-		
 		if not user:
 			raise Exception("No user for {}".format(user_sid))
 

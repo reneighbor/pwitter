@@ -2,8 +2,10 @@
 
 In the project directory, run the following commands:
 
-Install the requirements
+Create/initialize the virtual environment and install the requirements
 ```
+virtualenv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -19,14 +21,8 @@ OK
 
 Create the database
 ```
-python create_db.py
-```
-
-Run the database migration
-```
-$ python migrate_db.py
-New migration saved as ~/Projects/pwitter/db_repository/versions/001_migration.py
-Current database version: 1
+alembic init
+alembic upgrade head
 ```
 
 Create the first user, specifying the username

@@ -66,16 +66,11 @@ class UsersTweetsList(BaseResource):
         if user.id != g.user.id:
             raise ValueError("Not authorized to tweet on behalf of another user")
 
-        print "Logging"
-
-
         parser = reqparse.RequestParser()
         parser.add_argument('body',
             required=True)
 
         args = parser.parse_args()
-        print args;
-
 
         if args['body'] == '':
             raise ValueError("'body' argument is empty")
